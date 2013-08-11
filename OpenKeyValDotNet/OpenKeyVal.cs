@@ -4,11 +4,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace OpenKeyValTester
+namespace OpenKeyValDotNet
 {
-    public class OpenKeyValDotNET
+    public class OpenKeyVal
     {
-        private string _address = "http://api.openkeyval.org/";        
+        private string _address = "http://api.openkeyval.org/";
         public string Address
         {
             get { return _address; }
@@ -53,7 +53,7 @@ namespace OpenKeyValTester
                 var result = client.UploadValues(Address, "POST", new NameValueCollection { { key, valueAsJson } });
                 return Encoding.ASCII.GetString(result);
             }
-        }    
+        }
 
         /// <summary>
         /// Async method that returns the value for a key that has been deserialized into type T
@@ -67,7 +67,7 @@ namespace OpenKeyValTester
             {
                 var response = await client.DownloadStringTaskAsync(Address + key);
                 return JsonConvert.DeserializeObject<T>(response);
-            }       
+            }
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace OpenKeyValTester
             {
                 var response = client.DownloadString(Address + key);
                 return JsonConvert.DeserializeObject<T>(response);
-            }           
+            }
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace OpenKeyValTester
             {
                 var response = await client.DownloadStringTaskAsync(Address + key);
                 return response;
-            }    
+            }
         }
     }
 }

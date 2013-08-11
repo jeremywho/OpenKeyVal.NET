@@ -1,6 +1,10 @@
 ﻿Add option to compress/decompress json string
 Add error checking for key data size
 Add option to encrypt
+Add setup/teardown for unit tests and have teardown remove keys used for tests
 
-Add unit tests, setup test project
-Add to git, push to github
+*DONE* Add unit tests, setup test project
+*DONE* Add to git, push to github
+
+
+

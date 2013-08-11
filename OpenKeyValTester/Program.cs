@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
+using OpenKeyValDotNet;
 
 namespace OpenKeyValTester
 {
@@ -41,7 +42,7 @@ namespace OpenKeyValTester
     public class OpenKeyValTester
     {
         private readonly List<string> _keys = new List<string>();
-        private readonly OpenKeyValDotNET _okv = new OpenKeyValDotNET();
+        private readonly OpenKeyVal _okv = new OpenKeyVal();
 
         public async Task RunTests()
         {
