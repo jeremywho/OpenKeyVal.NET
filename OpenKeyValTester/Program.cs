@@ -48,7 +48,6 @@ namespace OpenKeyValTester
         {
             await DoPostAsync();
 
-
             DoGetString();
             DoGetWithType();
         }
@@ -70,7 +69,7 @@ namespace OpenKeyValTester
                 PostID = 3,
                 DateTime = DateTime.Now,
                 Data = "API is coming along!!"
-            };
+            };            
 
             _keys.Add(key1);
 
@@ -93,7 +92,7 @@ namespace OpenKeyValTester
             {
                 PostID = 3,
                 DateTime = DateTime.Now,
-                Data = "API is coming along!!"
+                Data = "Here is our test."
             };
 
             _keys.Add(key1);
