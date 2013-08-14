@@ -42,7 +42,7 @@ namespace OpenKeyValTester
     public class OpenKeyValTester
     {
         private readonly List<string> _keys = new List<string>();
-        private readonly OpenKeyVal _okv = new OpenKeyVal();
+        private readonly OpenKeyValClient _okv = new OpenKeyValClient();
 
         public async Task RunTests()
         {

@@ -1,9 +1,11 @@
-﻿*In progress* Add option to compress/decompress json string
-Finish up method docs
-Add error checking for key data size
+﻿Add error checking for key data size
+Add error checking
+Add test cases for error checking
 Add option to encrypt
-Add setup/teardown for unit tests and have teardown remove keys used for tests
 Add sync between local dictionary (w/some sore of datastore to filesystem) and openkeyval
 
 *DONE* Add unit tests, setup test project
 *DONE* Add to git, push to github
+*DONE* Finish up method docs
+*Close enough* Add setup/teardown for unit tests and have teardown remove keys used for tests
+*DONE* Add option to compress/decompress json string
