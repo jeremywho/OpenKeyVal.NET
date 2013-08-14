@@ -117,12 +117,13 @@ namespace OpenKeyValDotNet.Tests
                 if (list != null)
                     AssertListsAreEquals(property, list, (IList)expectedValue);
                 else if (!Equals(expectedValue, actualValue))
-                    Assert.Fail("Property {0}.{1} does not match. Expected: {2} but was: {3}", property.DeclaringType.Name, property.Name, expectedValue, actualValue);
+                    Assert.Fail("Property {0}.{1} does not match. Expected: {2} but was: {3}", (property.DeclaringType != null) ? property.DeclaringType.Name : "property.DeclaringType s", property.Name, expectedValue, actualValue);
             }
         }
 
         private static void AssertListsAreEquals(PropertyInfo property, IList actualList, IList expectedList)
         {
+            if (property == null) throw new ArgumentNullException("property");
             if (actualList.Count != expectedList.Count)
                 Assert.Fail("Property {0}.{1} does not match. Expected IList containing {2} elements but was IList containing {3} elements", property.PropertyType.Name, property.Name, expectedList.Count, actualList.Count);
 

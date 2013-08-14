@@ -3,6 +3,7 @@ Add error checking
 Add test cases for error checking
 Add option to encrypt
 Add sync between local dictionary (w/some sore of datastore to filesystem) and openkeyval
+Add code examples
 
 *DONE* Add unit tests, setup test project
 *DONE* Add to git, push to github

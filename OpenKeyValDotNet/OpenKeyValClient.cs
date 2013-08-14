@@ -120,7 +120,7 @@ namespace OpenKeyValDotNet
             var valueAsJson = JsonHelper.GetJsonFromValue(value, useCompression);
             using (var client = new WebClient())
             {
-                var result = client.UploadValues(_baseUrl, "POST", new NameValueCollection { { key, valueAsJson } });
+                var result = client.UploadValues(_baseUrl, "POST", new NameValueCollection {{key, valueAsJson}});
                 return Encoding.ASCII.GetString(result);
             }
         }        
