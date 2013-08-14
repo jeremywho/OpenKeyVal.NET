@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace OpenKeyValDotNet
 {
@@ -35,7 +32,7 @@ namespace OpenKeyValDotNet
             var nameValueCollection = new NameValueCollection();
 
             foreach(var entry in keyValuePairs)
-                nameValueCollection.Add(entry.Key, await GetJsonFromValueAsync(entry.Value, useCompression));
+                nameValueCollection.Add(entry.Key, await JsonHelper.GetJsonFromValueAsync(entry.Value, useCompression));
 
             using (var client = new WebClient())
             {
@@ -81,7 +78,7 @@ namespace OpenKeyValDotNet
             using (var client = new WebClient())
             {
                 var response = await client.DownloadStringTaskAsync(_baseUrl + key);
-                return await GetValueFromJsonAsync<T>(response, useCompression);
+                return await JsonHelper.GetValueFromJsonAsync<T>(response, useCompression);
             }
         }
 
@@ -96,7 +93,7 @@ namespace OpenKeyValDotNet
             using (var client = new WebClient())
             {
                 var response = await client.DownloadStringTaskAsync(_baseUrl + key);
-                return await GetValueFromJsonAsync<string>(response, useCompression);
+                return await JsonHelper.GetValueFromJsonAsync<string>(response, useCompression);
             }
         }
 
@@ -120,7 +117,7 @@ namespace OpenKeyValDotNet
         /// <returns>Task with the Json string returned from OpenKeyVal</returns>
         public string Save<T>(string key, T value, bool useCompression = false)
         {
-            var valueAsJson = GetJsonFromValue(value, useCompression);
+            var valueAsJson = JsonHelper.GetJsonFromValue(value, useCompression);
             using (var client = new WebClient())
             {
                 var result = client.UploadValues(_baseUrl, "POST", new NameValueCollection { { key, valueAsJson } });
@@ -152,7 +149,7 @@ namespace OpenKeyValDotNet
             using (var client = new WebClient())
             {
                 var response = client.DownloadString(_baseUrl + key);
-                return GetValueFromJson<T>(response, useCompression);
+                return JsonHelper.GetValueFromJson<T>(response, useCompression);
             }
         }
 
@@ -167,7 +164,7 @@ namespace OpenKeyValDotNet
             using (var client = new WebClient())
             {
                 var response = client.DownloadString(_baseUrl + key);
-                return GetValueFromJson<string>(response, useCompression);
+                return JsonHelper.GetValueFromJson<string>(response, useCompression);
             }
         }
 
@@ -179,112 +176,6 @@ namespace OpenKeyValDotNet
         public string Delete(string key)
         {
             return Save(key, String.Empty);
-        }
-
-        private static string GetJsonFromValue<T>(T value, bool useCompression)
-        {
-            return (useCompression)
-                       ? Compress(JsonConvert.SerializeObject(value))
-                       : JsonConvert.SerializeObject(value);
-        }
-
-        private static async Task<string> GetJsonFromValueAsync<T>(T value, bool useCompression)
-        {
-            return (useCompression)
-                       ? await CompressAsync(await JsonConvert.SerializeObjectAsync(value))
-                       : await JsonConvert.SerializeObjectAsync(value);
-        }
-
-        private static T GetValueFromJson<T>(string response, bool useCompression)
-        {
-            return (useCompression)
-                       ? JsonConvert.DeserializeObject<T>(Decompress(response))
-                       : JsonConvert.DeserializeObject<T>(response);
-        }
-
-        private static async Task<T> GetValueFromJsonAsync<T>(string response, bool useCompression)
-        {
-            return (useCompression)
-                       ? await JsonConvert.DeserializeObjectAsync<T>(await DecompressAsync(response))
-                       : await JsonConvert.DeserializeObjectAsync<T>(response);
-        }
-
-        /// <summary>
-        /// Compresses a string using System.IO.Compression.GZipStream
-        /// </summary>
-        /// <param name="s">String to compress</param>
-        /// <returns>Compressed string</returns>
-        public static string Compress(string s)
-        {
-            var bytes = Encoding.Unicode.GetBytes(s);
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                {
-                    msi.CopyTo(gs);
-                }
-
-                return Convert.ToBase64String(mso.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Asynchronously compresses a string using System.IO.Compression.GZipStream
-        /// </summary>
-        /// <param name="s">String to compress</param>
-        /// <returns>Compressed string</returns>
-        public static async Task<string> CompressAsync(string s)
-        {
-            var bytes = Encoding.Unicode.GetBytes(s);
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                {
-                    await msi.CopyToAsync(gs);
-                }
-                
-                return Convert.ToBase64String(mso.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Decompresses a string using System.IO.Compression.GZipStream
-        /// </summary>
-        /// <param name="s">String to decompress</param>
-        /// <returns>Decompressed string</returns>
-        public static string Decompress(string s)
-        {
-            var bytes = Convert.FromBase64String(s);
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(msi, CompressionMode.Decompress))
-                {
-                    gs.CopyTo(mso);
-                }
-                return Encoding.Unicode.GetString(mso.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Asychronously Decompresses a string using System.IO.Compression.GZipStream
-        /// </summary>
-        /// <param name="s">String to decompress</param>
-        /// <returns>Decompressed string</returns>
-        public static async Task<string> DecompressAsync(string s)
-        {
-            var bytes = Convert.FromBase64String(s);
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(msi, CompressionMode.Decompress))
-                {
-                    await gs.CopyToAsync(mso);
-                }
-                return Encoding.Unicode.GetString(mso.ToArray());
-            }
         }
     }
 }
