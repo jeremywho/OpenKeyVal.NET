@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OpenKeyValDotNet
 {
+    /// <summary>
+    /// Helper library to compress/decompress strings using GZip compression
+    /// </summary>
     public static class Compression
     {
         /// <summary>

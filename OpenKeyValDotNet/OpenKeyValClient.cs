@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace OpenKeyValDotNet
 {
+    /// <summary>
+    /// c# client library to store and retrieve data from http://OpenKeyVal.org
+    /// </summary>
     public class OpenKeyValClient
     {
         private readonly string _baseUrl = "http://api.openkeyval.org/";
 
-        public OpenKeyValClient()
-        {            
-        }
-
-        public OpenKeyValClient(string baseUrl)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="baseUrl">Optional: pass in the base Url to post http requests to.</param>
+        public OpenKeyValClient(string baseUrl = "http://api.openkeyval.org/")
         {
             _baseUrl = baseUrl;
         }

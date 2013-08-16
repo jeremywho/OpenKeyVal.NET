@@ -1,12 +1,17 @@
-﻿Add error checking for key data size
+﻿TODO:
 Add error checking
 Add test cases for error checking
 Add option to encrypt
-Add sync between local dictionary (w/some sore of datastore to filesystem) and openkeyval
-Add code examples
+Add readme with code samples
+Update to return read-only key when saving (or maybe a tuple with key and full text)
 
-*DONE* Add unit tests, setup test project
-*DONE* Add to git, push to github
-*DONE* Finish up method docs
-*Close enough* Add setup/teardown for unit tests and have teardown remove keys used for tests
-*DONE* Add option to compress/decompress json string
+MAYBE:
+Add sync between local dictionary (w/some sore of datastore to filesystem) and openkeyval
+Add error checking for key data size
+
+DONE:
+Add unit tests, setup test project
+Add to git, push to github
+Finish up method docs
+Add setup/teardown for unit tests and have teardown remove keys used for tests
+Add option to compress/decompress json string
